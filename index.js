@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const hostname = '127.0.0.1';
-const port = 3000;
+const port = 3001;
 const publicDir = path.join(process.cwd(), 'public');
 
 const server = createServer((req, res) => {
@@ -13,7 +13,7 @@ const server = createServer((req, res) => {
     if (err) {
       res.statusCode = 404;
       res.setHeader('Content-Type', 'text/plain');
-      res.end('File not found');
+      res.end('File not founds');
       return;
     }
 
@@ -21,6 +21,9 @@ const server = createServer((req, res) => {
     let contentType;
 
     switch (extname) {
+      case './':
+        contentType = 'text/html';
+        break;
       case '.html':
         contentType = 'text/html';
         break;
