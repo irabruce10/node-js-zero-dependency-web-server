@@ -1,32 +1,21 @@
 import { createServer } from 'node:http';
-import fs from 'node:fs';
-import path from 'node:path';
-
-const hostname = '127.0.0.1';
-const port = 3001;
-const publicDir = path.join(process.cwd(), 'public');
+import { readFile } from 'node:fs';
+import { join, extname as _extname } from 'node:path';
 
 const server = createServer((req, res) => {
-  const filePath = path.join(publicDir, req.url);
+  const filePath = join('public', req.url);
 
-  fs.readFile(filePath, (err, data) => {
+  readFile(filePath, (err, data) => {
     if (err) {
-      res.statusCode = 404;
-      res.setHeader('Content-Type', 'text/plain');
-      res.end('File not founds');
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.end('File not found');
       return;
     }
 
-    const a = res.end('/', 'index/html');
-    console.log(a);
-
-    const extname = path.extname(filePath);
+    const extname = _extname(filePath);
     let contentType;
 
     switch (extname) {
-      case '':
-        contentType = 'text/html';
-        break;
       case '.html':
         contentType = 'text/html';
         break;
@@ -40,17 +29,18 @@ const server = createServer((req, res) => {
       case '.jpeg':
         contentType = 'image/jpeg';
         break;
-
+      case '.png':
+        contentType = 'image/png';
+        break;
       default:
-        contentType = 'text/html';
+        contentType = 'application/octet-stream';
     }
 
-    res.statusCode = 200;
-    res.setHeader('Content-Type', contentType);
+    res.writeHead(200, { 'Content-Type': contentType });
     res.end(data);
   });
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+server.listen(3001, () => {
+  console.log('Server running at http://localhost:3000/');
 });
