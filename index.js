@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const hostname = '127.0.0.1';
-const port = 3001;
+const port = 3000;
 const publicDir = path.join(process.cwd(), 'public');
 
 const server = createServer((req, res) => {
@@ -34,9 +34,7 @@ const server = createServer((req, res) => {
       case '.jpeg':
         contentType = 'image/jpeg';
         break;
-      case '.png':
-        contentType = 'image/png';
-        break;
+
       default:
         contentType = 'application/octet-stream';
     }
