@@ -17,11 +17,14 @@ const server = createServer((req, res) => {
       return;
     }
 
+    const a = res.end('/', 'index/html');
+    console.log(a);
+
     const extname = path.extname(filePath);
     let contentType;
 
     switch (extname) {
-      case './':
+      case '':
         contentType = 'text/html';
         break;
       case '.html':
@@ -39,7 +42,7 @@ const server = createServer((req, res) => {
         break;
 
       default:
-        contentType = 'application/octet-stream';
+        contentType = 'text/html';
     }
 
     res.statusCode = 200;
